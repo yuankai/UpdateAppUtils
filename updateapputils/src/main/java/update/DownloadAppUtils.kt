@@ -4,19 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Environment
+import android.util.Base64
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadLargeFileListener
 import com.liulishuo.filedownloader.FileDownloader
 import extension.log
 import extension.no
 import extension.yes
-import model.UpdateInfo
 import util.*
-import util.FileDownloadUtil
-import util.GlobalContextProvider
-import util.SPUtil
-import util.SignMd5Util
-import util.Utils
 import java.io.File
 
 /**
@@ -116,6 +111,15 @@ internal object DownloadAppUtils {
         val downloadTask = FileDownloader.getImpl().create(updateInfo.apkUrl)
             .setPath(apkLocalPath)
 
+        if (updateInfo.config.downloadAuthUser.isNotEmpty()) {
+
+            val user = updateInfo.config.downloadAuthUser
+            var pwd = updateInfo.config.downloadAuthPwd
+            var auth = Base64.encodeToString("$user:$pwd".toByteArray(Charsets.UTF_8), Base64.DEFAULT)
+
+            downloadTask.addHeader("Authorization", "Basic $auth")
+        }
+
         downloadTask
             .addHeader("Accept-Encoding","identity")
             .addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36")
@@ -169,6 +173,8 @@ internal object DownloadAppUtils {
     private fun downloadByHttpUrlConnection(filePath: String, apkName: String?) {
         FileDownloadUtil.download(
             updateInfo.apkUrl,
+            updateInfo.config.downloadAuthUser,
+            updateInfo.config.downloadAuthPwd,
             filePath,
             "$apkName.apk",
             onStart = { downloadStart() },

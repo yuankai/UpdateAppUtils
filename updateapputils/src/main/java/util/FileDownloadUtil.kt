@@ -1,5 +1,6 @@
 package util
 
+import android.util.Base64
 import extension.log
 import extension.yes
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +33,8 @@ internal object FileDownloadUtil {
      */
     fun download(
         url: String,
+        authUser: String,
+        authPwd: String,
         fileSavePath: String,
         fileName: String?,
         onStart: () -> Unit = {},
@@ -54,6 +57,12 @@ internal object FileDownloadUtil {
                     setRequestProperty("Charset", "utf-8")
                     setRequestProperty("Accept-Encoding", "identity")
                     setRequestProperty("User-Agent", " Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36")
+
+                    if (authUser.isNotEmpty()) {
+                        var auth = Base64.encodeToString("$authUser:$authPwd".toByteArray(Charsets.UTF_8), Base64.DEFAULT)
+                        setRequestProperty("Authorization", "Basic $auth")
+                    }
+
                     connect()
                 }
 
