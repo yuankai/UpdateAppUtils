@@ -21,7 +21,7 @@ import update.UpdateAppUtils;
  */
 public class JavaDemoActivity extends AppCompatActivity {
 
-    private String apkUrl = "http://118.24.148.250:8080/yk/update_signed.apk";
+    private String apkUrl = "https://nexus.buymice.net/repository/maven-releases/net/buymice/animal-steward/4.0.27/animal-steward-4.0.27.apk";
     private String updateTitle = "发现新版本V2.0.0";
     private String updateContent = "1、Kotlin重构版\n2、支持自定义UI\n3、增加md5校验\n4、更多功能等你探索";
 
@@ -30,54 +30,51 @@ public class JavaDemoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_java_demo);
 
-        findViewById(R.id.btn_java).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        findViewById(R.id.btn_java).setOnClickListener(v -> {
 
-                UpdateConfig updateConfig = new UpdateConfig();
-                updateConfig.setCheckWifi(true);
-                updateConfig.setNeedCheckMd5(true);
-                updateConfig.setNotifyImgRes(R.drawable.ic_logo);
+            UpdateConfig updateConfig = new UpdateConfig();
+            updateConfig.setCheckWifi(true);
+            //updateConfig.setNeedCheckMd5(true);
+            updateConfig.setNotifyImgRes(R.drawable.ic_logo);
 
-                UiConfig uiConfig = new UiConfig();
-                uiConfig.setUiType(UiType.PLENTIFUL);
+            updateConfig.setDownloadAuthUser("appupdate");
+            updateConfig.setDownloadAuthPwd("qykcuj-nihjo4-nabwUf");
 
-                UpdateAppUtils
-                        .getInstance()
-                        .apkUrl(apkUrl)
-                        .updateTitle(updateTitle)
-                        .updateContent(updateContent)
-                        .uiConfig(uiConfig)
-                        .updateConfig(updateConfig)
-                        .setMd5CheckResultListener(new Md5CheckResultListener() {
-                            @Override
-                            public void onResult(boolean result) {
+            UiConfig uiConfig = new UiConfig();
+            uiConfig.setUiType(UiType.PLENTIFUL);
 
-                            }
-                        })
-                        .setUpdateDownloadListener(new UpdateDownloadListener() {
-                            @Override
-                            public void onStart() {
+            UpdateAppUtils
+                    .getInstance()
+                    .apkUrl(apkUrl)
+                    .updateTitle(updateTitle)
+                    .updateContent(updateContent)
+                    .uiConfig(uiConfig)
+                    .updateConfig(updateConfig)
+                    .setMd5CheckResultListener(result -> {
 
-                            }
+                    })
+                    .setUpdateDownloadListener(new UpdateDownloadListener() {
+                        @Override
+                        public void onStart() {
 
-                            @Override
-                            public void onDownload(int progress) {
+                        }
 
-                            }
+                        @Override
+                        public void onDownload(int progress) {
 
-                            @Override
-                            public void onFinish() {
+                        }
 
-                            }
+                        @Override
+                        public void onFinish() {
 
-                            @Override
-                            public void onError(@NotNull Throwable e) {
+                        }
 
-                            }
-                        })
-                        .update();
-            }
+                        @Override
+                        public void onError(@NotNull Throwable e) {
+
+                        }
+                    })
+                    .update();
         });
     }
 }
