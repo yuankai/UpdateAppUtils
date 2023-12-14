@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
-import android.support.annotation.Nullable
 
 /**
  * desc: 通过ContentProvider提供context.
@@ -26,18 +25,12 @@ internal class GlobalContextProvider : ContentProvider() {
     }
 
     override fun onCreate(): Boolean {
-        instance.mContext = context.applicationContext
+        instance.mContext = context?.applicationContext
         return true
     }
 
-    @Nullable
-    override fun insert(uri: Uri?, values: ContentValues?): Uri? {
-        return null
-    }
-
-    @Nullable
     override fun query(
-        uri: Uri?,
+        uri: Uri,
         projection: Array<out String>?,
         selection: String?,
         selectionArgs: Array<out String>?,
@@ -46,16 +39,19 @@ internal class GlobalContextProvider : ContentProvider() {
         return null
     }
 
-    override fun update(uri: Uri?, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
+    override fun insert(uri: Uri, values: ContentValues?): Uri? {
+        return null
+    }
+
+    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
         return 0
     }
 
-    override fun delete(uri: Uri?, selection: String?, selectionArgs: Array<out String>?): Int {
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
         return 0
     }
 
-    @Nullable
-    override fun getType(uri: Uri?): String? {
+    override fun getType(uri: Uri): String? {
         return null
     }
 }

@@ -8,9 +8,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
@@ -118,7 +118,7 @@ internal class UpdateAppActivity : AppCompatActivity() {
         findViewById<View>(R.id.view_line)?.visibleOrGone(!updateConfig.force)
 
         // 外部额外设置 取消 按钮点击事件
-        cancelBtn?.setOnTouchListener { v, event ->
+        cancelBtn?.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_UP -> {
                     UpdateAppUtils.onCancelBtnClickListener?.onClick() ?: false
@@ -128,7 +128,7 @@ internal class UpdateAppActivity : AppCompatActivity() {
         }
 
         // 外部额外设置 立即更新 按钮点击事件
-        sureBtn?.setOnTouchListener { v, event ->
+        sureBtn?.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_UP -> {
                     UpdateAppUtils.onUpdateBtnClickListener?.onClick() ?: false

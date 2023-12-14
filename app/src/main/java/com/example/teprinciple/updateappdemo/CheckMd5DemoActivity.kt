@@ -1,10 +1,9 @@
 package com.example.teprinciple.updateappdemo
 
 import android.os.Bundle
-import android.os.Environment
-import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import kotlinx.android.synthetic.main.check_md5_demo_activity.*
+import androidx.appcompat.app.AppCompatActivity
+import com.example.teprinciple.updateappdemo.databinding.CheckMd5DemoActivityBinding
 import listener.Md5CheckResultListener
 import model.UpdateConfig
 import update.UpdateAppUtils
@@ -29,10 +28,14 @@ class CheckMd5DemoActivity : AppCompatActivity() {
     private val updateTitle = "发现新版本V2.0.0"
     private val updateContent = "1、Kotlin重构版\n2、支持自定义UI\n3、增加md5校验\n4、更多功能等你探索"
 
+    private lateinit var binding: CheckMd5DemoActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = CheckMd5DemoActivityBinding.inflate(layoutInflater)
+        val view = binding.root
 
-        setContentView(R.layout.check_md5_demo_activity)
+        setContentView(view)
 
         // 更新配置
         val updateConfig = UpdateConfig().apply {
@@ -41,7 +44,7 @@ class CheckMd5DemoActivity : AppCompatActivity() {
         }
 
         // 正确签名
-        btn_signed.setOnClickListener {
+        binding.btnSigned.setOnClickListener {
             updateConfig.apply { apkSaveName = "signed" }
             UpdateAppUtils
                 .getInstance()
@@ -58,7 +61,7 @@ class CheckMd5DemoActivity : AppCompatActivity() {
         }
 
         // 错误签名
-        btn_not_signed.setOnClickListener {
+        binding.btnNotSigned.setOnClickListener {
             updateConfig.apply { apkSaveName = "not_signed" }
             UpdateAppUtils
                 .getInstance()

@@ -1,6 +1,6 @@
 package extension
 
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.util.Log
 import update.UpdateAppUtils
 import util.GlobalContextProvider
@@ -17,7 +17,9 @@ val Any.TAG: String
  */
 fun Any.log(content: String?) {
     UpdateAppUtils.updateInfo.config.isDebug.yes {
-        Log.e("[UpdateAppUtils]", content)
+        if (content != null) {
+            Log.e("[UpdateAppUtils]", content)
+        }
     }
 }
 

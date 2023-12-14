@@ -3,13 +3,11 @@ package util
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
-import android.support.v4.content.FileProvider
-import android.util.Log
+import androidx.core.content.FileProvider
 import extension.log
 import extension.yes
 import java.io.File
@@ -86,10 +84,10 @@ internal object Utils {
     /**
      * 获取apk versioncode
      */
-    fun getApkVersionCode(apkPath: String): Int {
+    fun getApkVersionCode(apkPath: String): Int? {
         val pm = getApp().applicationContext.packageManager
         return try {
-            pm.getPackageArchiveInfo(apkPath, PackageManager.GET_ACTIVITIES).versionCode
+            pm.getPackageArchiveInfo(apkPath, PackageManager.GET_ACTIVITIES)?.versionCode
         } catch (e: java.lang.Exception) {
             -1
         }

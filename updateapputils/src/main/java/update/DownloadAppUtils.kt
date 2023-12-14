@@ -3,6 +3,7 @@ package update
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.util.Base64
 import com.liulishuo.filedownloader.BaseDownloadTask
@@ -85,18 +86,32 @@ internal object DownloadAppUtils {
             return
         }
 
+        // 文件保存路径
         var filePath = ""
         (updateInfo.config.apkSavePath.isNotEmpty()).yes {
             filePath = updateInfo.config.apkSavePath
         }.no {
             val packageName = context.packageName
-            filePath = Environment.getExternalStorageDirectory().absolutePath + "/" + packageName
+
+            // API 大于 10，存储到公共的下载目录中
+            filePath = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                context.getExternalFilesDir(null)!!.absolutePath
+            } else {
+                // 否则存储在外部目录下
+                Environment.getExternalStorageDirectory().absolutePath + "/" + packageName
+            }
         }
 
         // apk 保存名称
         val apkName = if (updateInfo.config.apkSaveName.isNotEmpty()) {
+            // 配置中指定名称
             updateInfo.config.apkSaveName
+        } else if (updateInfo.apkUrl.endsWith(".apk")) {
+            // 如果URL中含有apk，则根据URL获得名称
+            updateInfo.apkUrl.substring(updateInfo.apkUrl.lastIndexOf("/") + 1)
+                .replace(".apk", "")
         } else {
+            // 否则读取app的应用名称
             Utils.getAppName(context)
         }
 

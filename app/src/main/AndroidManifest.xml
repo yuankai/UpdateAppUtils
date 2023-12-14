@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.teprinciple.updateappdemo">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:allowBackup="true"
@@ -11,7 +10,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -19,8 +18,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".JavaDemoActivity"/>
-        <activity android:name=".CheckMd5DemoActivity"/>
+        <activity android:name=".JavaDemoActivity" android:exported="false"/>
+        <activity android:name=".CheckMd5DemoActivity" android:exported="false"/>
 
     </application>
 

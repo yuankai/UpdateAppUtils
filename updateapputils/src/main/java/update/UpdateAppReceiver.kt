@@ -105,7 +105,6 @@ internal class UpdateAppReceiver : BroadcastReceiver() {
             builder.setChannelId(notificationChannel)
         }
 
-
         // 设置通知图标
         (updateConfig.notifyImgRes > 0).yes {
             builder.setSmallIcon(updateConfig.notifyImgRes)

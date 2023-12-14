@@ -1,14 +1,15 @@
 package com.example.teprinciple.updateappdemo;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.os.Environment;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.jetbrains.annotations.NotNull;
 
+import constacne.DownLoadBy;
 import constacne.UiType;
-import listener.Md5CheckResultListener;
 import listener.UpdateDownloadListener;
 import model.UiConfig;
 import model.UpdateConfig;
@@ -34,8 +35,12 @@ public class JavaDemoActivity extends AppCompatActivity {
 
             UpdateConfig updateConfig = new UpdateConfig();
             updateConfig.setCheckWifi(true);
-            //updateConfig.setNeedCheckMd5(true);
+            updateConfig.setNeedCheckMd5(false);
             updateConfig.setNotifyImgRes(R.drawable.ic_logo);
+            updateConfig.setDownloadBy(DownLoadBy.APP);
+            updateConfig.setForce(true);
+
+            updateConfig.setApkSavePath(getBaseContext().getExternalFilesDir("test").getAbsolutePath());
 
             updateConfig.setDownloadAuthUser("appupdate");
             updateConfig.setDownloadAuthPwd("qykcuj-nihjo4-nabwUf");
@@ -75,6 +80,8 @@ public class JavaDemoActivity extends AppCompatActivity {
                         }
                     })
                     .update();
+
+            UpdateAppUtils.getInstance().deleteInstalledApk();
         });
     }
 }

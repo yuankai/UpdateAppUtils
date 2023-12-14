@@ -4,13 +4,14 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Environment
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import constacne.DownLoadBy
+import com.example.teprinciple.updateappdemo.databinding.ActivityMainBinding
+import com.example.teprinciple.updateappdemo.databinding.CheckMd5DemoActivityBinding
 import constacne.UiType
-import kotlinx.android.synthetic.main.activity_main.*
 import listener.OnBtnClickListener
 import listener.OnInitUiListener
 import listener.UpdateDownloadListener
@@ -18,22 +19,26 @@ import model.UiConfig
 import model.UpdateConfig
 import update.UpdateAppUtils
 
-
 class MainActivity : AppCompatActivity() {
 
     private val apkUrl = "http://118.24.148.250:8080/yk/update_signed.apk"
     private val updateTitle = "发现新版本V2.0.0"
     private val updateContent = "1、Kotlin重构版\n2、支持自定义UI\n3、增加md5校验\n4、更多功能等你探索"
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+
+        setContentView(view)
 
         // 启动应用后删除安装包
         UpdateAppUtils.getInstance().deleteInstalledApk()
 
         // 基本使用
-        btn_basic_use.setOnClickListener {
+        binding.btnBasicUse.setOnClickListener {
             UpdateAppUtils
                 .getInstance()
                 .apkUrl(apkUrl)
@@ -44,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 浏览器下载
-        btn_download_by_browser.setOnClickListener {
+        binding.btnDownloadByBrowser.setOnClickListener {
 
             // 使用SpannableString
             val content = SpanUtils(this)
@@ -87,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 自定义UI
-        btn_custom_ui.setOnClickListener {
+        binding.btnCustomUi.setOnClickListener {
             UpdateAppUtils
                 .getInstance()
                 .apkUrl(apkUrl)
@@ -106,17 +111,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         // java使用示例
-        btn_java_sample.setOnClickListener {
+        binding.btnJavaSample.setOnClickListener {
             startActivity(Intent(this, JavaDemoActivity::class.java))
         }
 
         // md5校验
-        btn_check_md5.setOnClickListener {
+        binding.btnCheckMd5.setOnClickListener {
             startActivity(Intent(this, CheckMd5DemoActivity::class.java))
         }
 
         // 高级使用
-        btn_higher_level_use.setOnClickListener {
+        binding.btnHigherLevelUse.setOnClickListener {
             // ui配置
             val uiConfig = UiConfig().apply {
                 uiType = UiType.PLENTIFUL
